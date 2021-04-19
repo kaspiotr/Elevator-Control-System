@@ -49,11 +49,14 @@ public class SimulationService {
 
     /**
      * Elevator algorithm - it is basically the same algorithm that is used in real elevators:
-     * - elevator goes to the highest requested floor number - target floor,
-     * - until elevator is going up it accepts request from floors that number is higher than its current target floor
-     * - elevator collects passengers from the highest floor and stops on every requested floor
-     * - if none from the passengers is not going to the bottom floor it stops on the floor with least number
-     * - after a while, when elevator is not called it goes down to the bottom floor if it is not already on it
+     * - elevator starts from the first floor (floor no. 0)
+     * - elevator moves between the highest requested floor number and lowest requested floor,
+     * - elevator takes passengers that are going in the same direction as the current elevator's direction if they were
+     *   not already surpassed by the elevator
+     * - requests from passengers that are going in a different direction than the elevator's direction are ignored till
+     *   elevator changes its direction (when reaching the highest or the lowest requested floor)
+     * - simulation continues till they are passengers available
+     *
      * @return SimulationStep
      */
     public static SimulationStep performAlgorithmStep() {
