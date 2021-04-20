@@ -9,6 +9,7 @@ import pro.kaspiotr.elevatorcontrolsystem.domain.simulation.utils.Constants;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class SimulationService {
@@ -29,6 +30,13 @@ public class SimulationService {
 
     public static SimulationStep getSimulationStep() {
         return simulationStep;
+    }
+
+    public static int pickTargetStoreNo(Integer startStoreNo, Integer direction) {
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        return direction < 0
+                ? random.nextInt(0, startStoreNo + 1)
+                : random.nextInt(startStoreNo, SimulationService.getSimulationStep().getStoresNo() + 1);
     }
 
     public static SimulationStep pickupElevatorAndAddPassengerRequest(String elevatorId, String requestedStartStoreNo, String direction) {
