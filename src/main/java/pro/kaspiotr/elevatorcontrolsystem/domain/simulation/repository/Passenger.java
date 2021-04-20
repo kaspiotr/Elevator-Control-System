@@ -15,17 +15,21 @@ public class Passenger {
     public Passenger(Integer startStoreNo, Integer direction, Integer targetStoreNo, boolean isInElevator) {
         this.startStoreNo = startStoreNo;
         this.targetStoreNo = Objects.isNull(targetStoreNo) ?
-                ThreadLocalRandom.current()
-                        .nextInt(direction < 0 ? 1 : startStoreNo, direction < 0 ?
-                                startStoreNo : SimulationService.getSimulationStep().getStoresNo() + 1) : targetStoreNo;
+                pickTargetStoreNo(startStoreNo, direction) : targetStoreNo;
         this.isInElevator = isInElevator;
         this.requestedDirection = direction;
+    }
+
+    private int pickTargetStoreNo(Integer startStoreNo, Integer direction) {
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        return direction < 0
+                ? random.nextInt(0, startStoreNo + 1)
+                : random.nextInt(startStoreNo, SimulationService.getSimulationStep().getStoresNo() + 1);
     }
 
     public int getStartStoreNo() {
         return startStoreNo;
     }
-
 
     public int getTargetStoreNo() {
         return targetStoreNo;
